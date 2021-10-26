@@ -1,0 +1,6 @@
+-- O Scrip abaixo conecta no Gmail e envia um e-mail através do Gmail (Lembrando que você precisa permitir que o Gmail faça isso nas configurações) 
+
+import yagmail
+
+usuario = yagmail.SMTP(user='SEU LOGIN', password='SUA SENHA')
+usuario.send(to='DESTINATÁRIO', subject='ASSUNTO', contents='CORPO DO E-MAIL', attachments='CAMINHO COMPLETO DO ANEXO')
