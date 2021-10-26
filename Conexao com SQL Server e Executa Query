@@ -1,0 +1,20 @@
+# O Script abaixo, conecta no SQL Server e lê uma tabela através da biblioteca Pandas.
+
+import pyodbc
+import pandas as pd
+
+#Abaixo são os parâmetros de conexão
+dados_conexao =("Driver={SQL Server Native Client 11.0};"
+    "Server=NOME DO TEU SERVIDOR;"
+    "Database=NOME DO TEU BANCO DE DADOS;"
+    "UID=SEU LOGIN;"
+    "PWD=SUA SENHA;")
+
+conexao = pyodbc.connect(dados_conexao)
+print('conexao bem sucedida')
+
+cursor = conexao.cursor()
+
+#Abaixo você escreve a query 
+tb_python = pd.read_sql('select * from Tabela',conexao)
+print(tb_python)
