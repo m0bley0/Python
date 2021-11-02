@@ -1,0 +1,32 @@
+import pandas as pd
+
+lista_ind_contem_nome = []
+
+# CAMINHO DA PLANILHA
+planilha = 'C:/Users/walla/Desktop/Dataset Textos.xlsx'
+
+# LÊ O DATASET O DATASET
+df = pd.read_excel(planilha)
+
+# LÊ DUAS COLUNAS DO DATASET
+for i, palavra in enumerate(df['PALAVRA']):
+    texto = df.loc[i,'TEXTO']
+
+    # VERIFICA SE A PALAVRA CONTÉM NO TEXTO -- CASE SENSITIVE
+    #if (palavra in texto):
+
+    # VERIFICA SE A PALAVRA CONTÉM NO TEXTO -- NÃO É CASE SENSITIVE
+    if (palavra.upper() in texto.upper()):
+        lista_ind_contem_nome.append('S')
+    else:
+        lista_ind_contem_nome.append('N')
+
+# CRIA UM DATAFRAME COM UMA COLUNA DO IND_CONTEM_NOME
+df_ind_contem_nome = pd.DataFrame(lista_ind_contem_nome, columns=['IND_CONTEM_NOME'])
+
+# ADICIONA COLUNA DE IND_CONTEM_NOME NO DATASET
+with pd.ExcelWriter(planilha) as w:
+    tabela = pd.concat([df,df_ind_contem_nome], axis=1)
+    tabela.to_excel(w, sheet_name='BD', index=False)
+
+print('Processo finalizado!')
