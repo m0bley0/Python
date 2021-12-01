@@ -1,0 +1,31 @@
+import pyodbc
+import pandas as pd
+
+#CONEXAO COM O BANCO DE DADOS
+conexao_dw = ("Driver={SQL Server Native Client 11.0};"
+                 "Server=DESKTOP-UL4QIO3\SQLEXPRESS;"
+                 "Database=DW;"
+                 "UID=chapolin;"
+                 "PWD=123@mudar;")
+
+conexao_dw = pyodbc.connect(conexao_dw)
+cursor_dw = conexao_dw.cursor()
+
+#LEITURA DA PLANILHA
+df = pd.read_excel('Planilha Python.xlsx')
+
+#APAGAR REGISTROS NA TABELA
+cursor_dw.execute('TRUNCATE TABLE TB_INSERT_PYTHON')
+cursor_dw.commit()
+
+#PERCORRENDO LINHA A LINHA DA TABELA E INSERINDO NO BANCO DE DADOS
+for i, produto in enumerate(df['Produto']):
+    fabricante = df.loc[i,'Fabricante']
+
+    dados = '\'' + produto + '\'' + ',\'' + fabricante + '\'' +  ')'
+    script = '''insert into TB_INSERT_PYTHON ([PRODUTO], [FABRICANTE]) values ('''
+
+    query = script + dados
+    print(query)
+    cursor_dw.execute(query)
+    cursor_dw.commit()
