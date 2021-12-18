@@ -1,0 +1,42 @@
+import pyodbc
+import pandas as pd
+
+#CONEXAO COM O BANCO DE PRODUCAO
+conexao_prd = ("Driver={SQL Server Native Client 11.0};"
+                 "Server=DESKTOP-UL4QIO3\SQLEXPRESS;"
+                 "Database=PRD;"
+                 "UID=chapolin;"
+                 "PWD=123@mudar;")
+#CURSOR DE CONEXAO PRODUCAO
+conexao_prd = pyodbc.connect(conexao_prd)
+cursor_prd = conexao_prd.cursor()
+
+#CONEXAO COM O BANCO DW
+conexao_dw = ("Driver={SQL Server Native Client 11.0};"
+                 "Server=DESKTOP-UL4QIO3\SQLEXPRESS;"
+                 "Database=DW;"
+                 "UID=chapolin;"
+                 "PWD=123@mudar;")
+
+#CURSOR DE CONEXAO COM O BANCO DW
+conexao_dw = pyodbc.connect(conexao_dw)
+cursor_dw = conexao_dw.cursor()
+
+#LEITURA DA TABELA DE UNIVERSIDADES NO BANCO DE PRODUCAO
+df = pd.read_sql('SELECT Instituição, Tipo FROM TB_UNIVERSIDADES_PORTUGAL' ,conexao_prd)
+
+#LIMPANDO REGISTROS NA TABELA DO BANCO DW
+cursor_dw.execute('TRUNCATE TABLE dInstituicao')
+cursor_dw.commit()
+
+#INICIANDO ESTRUTURA DE REPETICAO PARA INSERIR CADA LINHA DA TABELA NO BANCO DW
+for i, nome in enumerate(df['Instituição']):
+    tipo = df.loc[i, 'Tipo']
+
+    script = 'INSERT INTO dInstituicao([NOME], [TIPO]) values ('''
+    dados = '\'' + nome + '\',' + '\'' + tipo + '\''  ')'
+
+    query = script + dados
+    print(query)
+    cursor_dw.execute(query)
+    cursor_dw.commit()
