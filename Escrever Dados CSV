@@ -1,0 +1,3 @@
+with open('Tabela_precos_boa_dica.csv', 'a', newline='', encoding='UTF-8') as w:
+	linha = produto+';'+title.text+';'+price.text+'\n'
+    w.write(linha)
