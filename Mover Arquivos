@@ -1,0 +1,14 @@
+from pathlib import Path
+import shutil
+
+nome_arquivo = 'klingon.csv'
+
+with open(nome_arquivo, 'a', newline='', encoding='UTF-8') as w:
+    linha = 'Wallace na Europa' + '\n'
+    w.write(linha)
+
+origem = (Path.cwd())
+origem_completa = f'{origem}\{nome_arquivo}'
+origem_destino = Path('C:/Users/walla/Desktop')
+
+shutil.copy2(origem_completa,origem_destino)
