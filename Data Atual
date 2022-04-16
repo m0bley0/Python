@@ -1,0 +1,4 @@
+from datetime import date
+
+hoje = str(date.today())
+print(hoje)
