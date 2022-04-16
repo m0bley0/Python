@@ -1,0 +1,1 @@
+tabela.to_excel('planilha python.xlsx', sheet_name='sheet 1', index=False)
