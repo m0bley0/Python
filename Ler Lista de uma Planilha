@@ -1,0 +1,8 @@
+df = pd.read_excel('C:/Users/walla/Desktop/Planilhas.xlsx')
+
+#Repetição
+# i --> Indice
+
+for i, contato in enumerate(df['EMAIL']):
+    nome = df.loc[i,"NOME"]
+    sobrenome = df.loc[i,"SOBRENOME"]
