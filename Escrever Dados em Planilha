@@ -1,0 +1,3 @@
+    with pd.ExcelWriter('Tabela.xlsx') as w:
+
+       tabela.to_excel(w, sheet_name='Aba', index=False)
