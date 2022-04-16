@@ -1,0 +1,4 @@
+df_clientes = pd.DataFrame(lista_clientes,columns=['Clientes'])
+df_vendas = pd.DataFrame(lista_vendas,columns=['Vendas'])
+
+tabela = pd.concat([df_clientes, df_vendas], axis=1)
